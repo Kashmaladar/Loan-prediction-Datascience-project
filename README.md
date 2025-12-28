@@ -90,7 +90,7 @@ goal = avoid approving risky loans → tuned XGBoost
 goal = identify most risky loans overall → logistic regression / baseline XGBoost
 
 How to Run
-git clone <your-repo-url>
-cd <repo-folder>
+git clone <https://github.com/Kashmaladar/Loan-prediction-Datascience-project.git>
+cd <LOAN-PREDICTION-DATASCIENCE-PROJECT>
 pip install -r requirements.txt
 python app.py
