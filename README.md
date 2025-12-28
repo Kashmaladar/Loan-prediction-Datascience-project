@@ -1,15 +1,14 @@
 Loan Prediction Project
 Project Overview
 
-This project predicts whether a loan applicant will be approved or rejected based on personal and financial features. The focus is on improving predictions for the minority class (rejected loans) in a highly imbalanced dataset.
+This project predicts whether a loan applicant will be approved or rejected based on personal and financial features.
+Because the dataset is highly imbalanced, the focus is on improving prediction quality for the rejected-loan class (minority class) instead of only maximizing accuracy.
 
-Target Variable:
+Target Variable
 
-Status
+‘Y’ → Approved (1)
 
-Y → Approved (1)
-
-N → Rejected (0)
+‘N’ → Rejected (0)
 
 Dataset Features
 Demographics & Personal Info
@@ -34,77 +33,64 @@ Loan Term
 
 Credit History
 
-Engineered Features
+Derived / Engineered Features
 
-Total applicant income
+Total household income
 
 Loan burden ratio
 
 Income per dependent
 
-Area and education risk
+Income stability indicators
 
-Income stability
+Education/area risk flags
 
 Data Preparation
+
+handled missing values
+
+encoded categorical variables
+
+feature engineering performed
+
+non-informative features removed after evaluation
+
 Handling Class Imbalance
 
 Logistic Regression & KNN → Random Oversampling
 
 Gradient Boosting & XGBoost → SMOTE
 
-Feature Engineering & Selection
+Optuna used for hyperparameter tuning of XGBoost
 
-Created domain-driven features
+Models & Performance (Key Results)
 
-Removed zero-importance features after model evaluation
+Focus metric: minority class (Rejected loans = 0)
 
-Models & Performance
-
-All metrics are reported on the test set.
-
-🔹 Class label meaning
-
-0 = Rejected loans (minority class of interest)
-
-1 = Approved loans
-
-📊 Model comparison
-Model	Precision (Class 0)	Recall (Class 0)	F1 (Class 0)	Accuracy	AUC
-Logistic Regression	0.52	0.63	0.57	0.73	0.709
-K-Nearest Neighbors	0.45	0.56	0.50	0.69	~0.71
-Gradient Boosting	0.43	0.62	0.51	0.72	~0.71
-XGBoost	0.48	0.67	0.56	0.74	0.710
-Optimized XGBoost (Optuna)	0.89	0.40	0.56	0.78	0.723
+Model	Precision (Class 0)	Recall (Class 0)	AUC	Accuracy
+Logistic Regression	0.52	0.63	0.709	0.73
+K-Nearest Neighbors	0.45	0.56	~0.71	0.69
+Gradient Boosting	0.43	0.62	~0.71	0.72
+XGBoost	0.48	0.67	0.710	0.74
+Optuna-Tuned XGBoost	0.89	0.40	0.723	0.78
 Interpretation
 
-Optimized XGBoost reaches the highest AUC
+tuned XGBoost achieves very high precision for rejected loans
 
-Optimized XGBoost heavily prioritizes:
+but recall drops — it misses some risky applicants
 
-very high recall for approved loans (class 1)
+logistic regression and untuned XGBoost are more balanced
 
-very high precision for rejected loans (class 0)
+oversampling techniques consistently improved minority-class metrics
 
-Base XGBoost provides more balanced performance
+Business Meaning
 
-Oversampling + SMOTE improves minority-class detection
+goal = avoid approving risky loans → tuned XGBoost
 
-Key Takeaways
-
-Handling class imbalance is essential
-
-Ensemble models outperform simple ones
-
-Hyperparameter tuning matters — Optuna improved AUC
-
-There is a trade-off:
-
-catching more rejected loans
-
-vs avoiding false alarms
+goal = identify most risky loans overall → logistic regression / baseline XGBoost
 
 How to Run
 git clone <your-repo-url>
 cd <repo-folder>
 pip install -r requirements.txt
+python app.py
